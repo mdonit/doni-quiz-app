@@ -9,6 +9,7 @@ import { Player } from "../firebase/types";
 const PlayerList = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const header = ["Player", "Score", "Rounds Played"];
+  const [playersModified, setPlayersModified] = useState<boolean>(false);
 
   useEffect(() => {
     const helper = async () => {
@@ -23,10 +24,13 @@ const PlayerList = () => {
       setPlayers(unsortedPlayers);
     };
     helper();
-  }, []);
+  }, [playersModified]);
 
   const handleDeletePlayer = async (id: string, name: string) => {
-    if (confirm(`Are you sure you want to delete Player "${name}"?`)) await deletePlayer(id);
+    if (confirm(`Are you sure you want to delete Player "${name}"?`)) {
+      await deletePlayer(id);
+      setPlayersModified((prev) => !prev);
+    }
   };
 
   return (
