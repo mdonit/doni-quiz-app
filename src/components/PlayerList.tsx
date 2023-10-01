@@ -48,20 +48,26 @@ const PlayerList = () => {
             </TableRow>
           </TableHead>
           <TableBody className={styles.table__body}>
-            {players.map((pl) => (
-              <TableRow key={pl.id} className={styles.table__row}>
-                <TableCell>{pl.name}</TableCell>
-                <TableCell className={styles.table__data} sx={{ textAlign: "center" }}>
-                  {pl.score}
-                </TableCell>
-                <TableCell className={styles.table__data} sx={{ textAlign: "center" }}>
-                  {pl.rounds}
-                </TableCell>
-                <TableCell>
-                  <AiFillDelete onClick={() => handleDeletePlayer(pl.id, pl.name)} size={25} className={styles2["card__icon-delete"]} />
-                </TableCell>
-              </TableRow>
-            ))}
+            {players.length === 0 ? (
+              <div style={{ marginTop: "2rem" }}>
+                <p> No Players Available!</p>
+              </div>
+            ) : (
+              players.map((pl) => (
+                <TableRow key={pl.id} className={styles.table__row}>
+                  <TableCell>{pl.name}</TableCell>
+                  <TableCell className={styles.table__data} sx={{ textAlign: "center" }}>
+                    {pl.score}
+                  </TableCell>
+                  <TableCell className={styles.table__data} sx={{ textAlign: "center" }}>
+                    {pl.rounds}
+                  </TableCell>
+                  <TableCell>
+                    <AiFillDelete onClick={() => handleDeletePlayer(pl.id, pl.name)} size={25} className={styles2["card__icon-delete"]} />
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

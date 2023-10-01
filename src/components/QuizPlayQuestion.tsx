@@ -1,23 +1,22 @@
 import styles from "./grid.module.css";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../store/store";
 import { Button } from "@mui/material";
 import useShuffleArray from "../hooks/useShuffleArray";
-import { QuizList } from "../models";
+import { Quiz } from "../firebase/types";
 
 type Props = {
   questionIndex: number;
   nextQuestionIndex: () => void;
   addPlayerScore: () => void;
+  questions: Quiz[];
 };
 
-const QuizPlayQuestion = ({ questionIndex, nextQuestionIndex, addPlayerScore }: Props) => {
-  const quizesOg = useAppSelector((state) => state.quiz.quizes);
+const QuizPlayQuestion = ({ questionIndex, nextQuestionIndex, addPlayerScore, questions }: Props) => {
   const [answerSelected, setAnswerSelected] = useState<number>(-1);
-  const [quizes, setQuizes] = useState<QuizList>(quizesOg);
+  const [quizes, setQuizes] = useState<Quiz[]>(questions);
 
   useEffect(() => {
-    setQuizes(useShuffleArray([...quizesOg]));
+    setQuizes(useShuffleArray([...questions]));
   }, []);
 
   return (

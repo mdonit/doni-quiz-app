@@ -63,22 +63,26 @@ const QuizListed = () => {
       <IoIosAddCircle onClick={toggleModal} size={30} className={styles["card__icon-add"]} />
       {showModal && useModalPortal(<QuizAdd toggleModal={toggleModal} editValues={editValues} setQuestionAdded={setQuestionAdded} />)}
       <ul className={styles["card-list"]}>
-        {questions.map((qu) => (
-          <li key={qu.id}>
-            <div className={styles.card}>
-              <div className={styles.card__title}>{qu.question}</div>
-              <ul className={styles.card__body}>
-                {qu.answers.map((an) => (
-                  <li key={qu.answers.indexOf(an)}>{an}</li>
-                ))}
-              </ul>
-              <div className={styles.card__icons}>
-                <AiFillEdit onClick={() => editQuiz(qu)} size={25} className={styles["card__icon-edit"]} />
-                <AiFillDelete onClick={() => deleteQuiz(qu.id, qu.question)} size={25} className={styles["card__icon-delete"]} />
+        {questions.length === 0 ? (
+          <p>No Questions Available. Add some!</p>
+        ) : (
+          questions.map((qu) => (
+            <li key={qu.id}>
+              <div className={styles.card}>
+                <div className={styles.card__title}>{qu.question}</div>
+                <ul className={styles.card__body}>
+                  {qu.answers.map((an) => (
+                    <li key={qu.answers.indexOf(an)}>{an}</li>
+                  ))}
+                </ul>
+                <div className={styles.card__icons}>
+                  <AiFillEdit onClick={() => editQuiz(qu)} size={25} className={styles["card__icon-edit"]} />
+                  <AiFillDelete onClick={() => deleteQuiz(qu.id, qu.question)} size={25} className={styles["card__icon-delete"]} />
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))
+        )}
       </ul>
       <BackButton />
     </>

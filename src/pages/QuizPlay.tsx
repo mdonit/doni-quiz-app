@@ -1,10 +1,12 @@
 import { KeyboardEvent, useEffect, useState } from "react";
-import { useAppSelector } from "../store/store";
+// import { useAppSelector } from "../store/store";
 import { Button, TextField } from "@mui/material";
 import styles from "../page.module.css";
 import QuizPlayQuestion from "../components/QuizPlayQuestion";
 import BackButton from "../components/BackButton";
 import { addPlayer } from "../firebase/players";
+import { Quiz } from "../firebase/types";
+import { getFromQuiz } from "../firebase/quizzes";
 
 type NewPlayer = {
   name: string;
@@ -12,14 +14,29 @@ type NewPlayer = {
 };
 
 const QuizPlay = () => {
-  const quizes = useAppSelector((state) => state.quiz.quizes);
+  // const quizes = useAppSelector((state) => state.quiz.quizes);
+  const [questions, setQuestions] = useState<Quiz[]>([]);
   const [gameState, setGameState] = useState<boolean>(false);
   const [questionIndex, setQuestionIndex] = useState<number>(0);
   const [currentPlayer, setCurrentPlayer] = useState<NewPlayer>({ name: "", score: 0 });
 
   useEffect(() => {
     const helper = async () => {
-      if (questionIndex === quizes.length) {
+      const initQuestions = await getFromQuiz();
+      const questionsArray: Quiz[] = [];
+
+      initQuestions.forEach((doc) => {
+        questionsArray.push({ id: doc.id, question: doc.data().question, answers: doc.data().answers, answerIndex: doc.data().answerIndex });
+      });
+
+      setQuestions(questionsArray);
+    };
+    helper();
+  }, []);
+
+  useEffect(() => {
+    const helper = async () => {
+      if (questionIndex === questions.length && gameState) {
         await addPlayer(currentPlayer.name, currentPlayer.score);
       }
     };
@@ -51,13 +68,13 @@ const QuizPlay = () => {
     <div className={styles.page}>
       <h1>QuizPlay Page</h1>
       {gameState ? (
-        quizes.length > questionIndex ? (
-          <QuizPlayQuestion questionIndex={questionIndex} nextQuestionIndex={nextQuestionIndex} addPlayerScore={addPlayerScore} />
+        questions.length > questionIndex ? (
+          <QuizPlayQuestion questionIndex={questionIndex} nextQuestionIndex={nextQuestionIndex} addPlayerScore={addPlayerScore} questions={questions} />
         ) : (
           <div>
             <p>GAME IS OVER!</p>
             <p>
-              Your scored {currentPlayer.score} out of {quizes.length}
+              Your scored {currentPlayer.score} out of {questions.length}
             </p>
             <Button
               variant="outlined"
@@ -74,12 +91,21 @@ const QuizPlay = () => {
         )
       ) : (
         <div className={styles.page__main}>
-          <TextField id="outlined-basic" label="Enter Player Name" variant="outlined" size="small" color="primary" onChange={setPlayer} onKeyDown={pressedEnter} />
+          {questions.length < 3 ? (
+            <>
+              <p>Not enough questions!</p>
+              <p> Add at least 3 in order to play!</p>
+            </>
+          ) : (
+            <>
+              <TextField id="outlined-basic" label="Enter Player Name" variant="outlined" size="small" color="primary" onChange={setPlayer} onKeyDown={pressedEnter} />
 
-          <p>There are {quizes.length} questions</p>
-          <Button variant="contained" color="primary" onClick={playGame}>
-            Start Game
-          </Button>
+              <p>There are {questions.length} questions</p>
+              <Button variant="contained" color="primary" onClick={playGame}>
+                Start Game
+              </Button>
+            </>
+          )}
         </div>
       )}
       <BackButton />
