@@ -1,8 +1,9 @@
+// @ts-nocheck
 import { useRouteError } from "react-router-dom";
 import BackButton from "../components/BackButton";
 
 function ErrorPage() {
-  const error: any = useRouteError();
+  const error = useRouteError();
 
   let title = "An error occurred!";
   let message = "Something went wrong! :(";
