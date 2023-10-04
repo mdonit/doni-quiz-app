@@ -44,7 +44,7 @@ const QuizPlayQuestion = ({ questionIndex, nextQuestionIndex, addPlayerScore, qu
         <Button
           disabled={answerSelected === -1}
           variant="outlined"
-          sx={{ width: 200, "&:hover": { color: "primary.contrastText", backgroundColor: "primary.dark" } }}
+          sx={{ width: 200, "@media (hover: hover)": { "&:hover": { color: "primary.contrastText", backgroundColor: "primary.dark" } } }}
           color="primary"
           onClick={() => {
             nextQuestionIndex();

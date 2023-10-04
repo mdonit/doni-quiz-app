@@ -9,9 +9,6 @@ import HighscoreList from "./pages/HighscoreList";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { deepPurple, indigo } from "@mui/material/colors";
 
-//TODO: Error Page-re gomb, meg vhogy nézzen ki!
-//TODO: ha két ugyanolyan választ adok meg AddQuiznél, az errort okoz (valszeg id-index miatt; lehet ink generálni kéne)
-
 const theme = createTheme({
   palette: {
     primary: {

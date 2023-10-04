@@ -50,7 +50,6 @@ const QuizListed = () => {
   };
 
   const deleteQuiz = async (id: string, question: string) => {
-    // if (confirm(`Are you sure you want to delete the following question: \n"${question}"`)) dispatch(quizDelete({ id }));
     if (confirm(`Are you sure you want to delete the following question: \n"${question}"`)) {
       await deleteFromQuiz(id);
       setQuestionAdded((prev) => !prev);

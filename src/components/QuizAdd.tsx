@@ -1,6 +1,4 @@
 import { useRef, useState, useEffect, Dispatch, SetStateAction } from "react";
-// import { quizAdd } from "../store/features/QuizSlice";
-// import { useAppDispatch } from "../store/store";
 import { TextField, Checkbox, FormControlLabel, Button } from "@mui/material";
 import styles from "../pages/cards.module.css";
 import { Quiz } from "../models";
@@ -21,8 +19,6 @@ export const QuizAdd = ({ toggleModal, editValues, setQuestionAdded }: ToggleMod
   const answerD = useRef<string>(editValues.answers[3]);
   const [answerIndex, setAnswerIndex] = useState<number>(editValues.answerIndex);
   const [boxesChecked, setBoxesChecked] = useState<boolean[]>([true, false, false, false]);
-
-  // const dispatch = useAppDispatch();
 
   const setAnswer = (correctAnswer: number) => {
     const checkBoxes = [false, false, false, false];
@@ -49,7 +45,6 @@ export const QuizAdd = ({ toggleModal, editValues, setQuestionAdded }: ToggleMod
 
     if (!newQuiz.question || !newQuiz.answerA || !newQuiz.answerB || !newQuiz.answerC || !newQuiz.answerD) alert("Please fill in all fields!");
     else {
-      // dispatch(quizAdd(newQuiz));
       await addToQuiz(newQuiz.id, newQuiz.question, [newQuiz.answerA, newQuiz.answerB, newQuiz.answerC, newQuiz.answerD], newQuiz.answerIndex);
       setQuestionAdded((prev) => !prev);
       toggleModal();

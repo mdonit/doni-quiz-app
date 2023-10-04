@@ -66,3 +66,14 @@
   justify-content: center;
   margin-top: 2rem;
 }
+
+@media (max-width: 425px) {
+  .grid {
+    width: 350px;
+    user-select: none;
+  }
+
+  .grid__item-list {
+    grid-template-columns: 1fr;
+  }
+}

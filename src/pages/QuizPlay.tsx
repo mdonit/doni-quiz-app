@@ -1,5 +1,4 @@
 import { KeyboardEvent, useEffect, useState } from "react";
-// import { useAppSelector } from "../store/store";
 import { Button, TextField } from "@mui/material";
 import styles from "../page.module.css";
 import QuizPlayQuestion from "../components/QuizPlayQuestion";
@@ -14,7 +13,6 @@ type NewPlayer = {
 };
 
 const QuizPlay = () => {
-  // const quizes = useAppSelector((state) => state.quiz.quizes);
   const [questions, setQuestions] = useState<Quiz[]>([]);
   const [gameState, setGameState] = useState<boolean>(false);
   const [questionIndex, setQuestionIndex] = useState<number>(0);
